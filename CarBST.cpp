@@ -1,6 +1,7 @@
 #include "CarBST.h"
 #include <queue>
 #include <stack>
+#include <string.h>
 #include <fstream>
 using namespace std;
 
@@ -82,8 +83,6 @@ CarNode *	CarBST::Delete(int num)				// COMPLETE
 	// When exit the while statement, p points node and q is an ancestor of p
 
 
-
-	// Create a clone node pCopy that contains information about the node to be deleted
 	CarNode *pCopy = new CarNode(p->GetcarNum(), p->GetcarOwner(), p->Getstate());
 
 	// If there are no child nodes
@@ -348,15 +347,12 @@ bool		CarBST::Print(const char * order)		// PRINT
 	return true;
 }
 
-bool		CarBST::Save()							// SAVE
+bool		CarBST::Save(ofstream& fname)							// SAVE
 {
 	if (root == NULL) return false;
 
-	ofstream fEvent("event_list_car.txt");
-
 	stack<CarNode*> S;
-	CarNode* curNode = new CarNode(); 
-	curNode = root;
+	CarNode* curNode = root;
 	S.push(curNode);	// push root into stack
 
 	// repeat until stack S is empty
@@ -382,7 +378,6 @@ bool		CarBST::Save()							// SAVE
 
 	}
 
-	fEvent.close();
 	return true;
 }
 
