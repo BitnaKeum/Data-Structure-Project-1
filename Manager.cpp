@@ -1,5 +1,8 @@
 #include "Manager.h"
 #include <stdlib.h>
+#include <string.h>
+#include <fstream>
+#pragma warning (disable: 4996)	// to avoid error message by using strtok
 
 
 using namespace std;
@@ -89,8 +92,8 @@ void Manager::run(const char * command)
 				printErrorCode(700);		// error occurs in COMPLETE function 
 		}
 
-		else   {                      	// if command is "EXIT"
-			EXIT();							// implement EXIT function
+		else if (!strcmp(cmd, "EXIT")) {        // if command is "EXIT"
+			EXIT();				// implement EXIT function
 		}
 	}
 
@@ -105,12 +108,12 @@ void Manager::run(const char * command)
 bool Manager::LOAD() 
 {
 	// open the files as input stream
-	ifstream fTotal("total_list_car.txt");
-	ifstream fEvent("event_list_car.txt");
-	ifstream fComplete("complete_list_car.txt");
+	rTotal.open("total_list_car.txt");
+	rEvent.open("event_list_car.txt");
+	rComplete.open("complete_list_car.txt");
 
 	// If any of the three text files does not exist, return false
-	if (!fTotal || !fEvent || !fComplete)			return false;
+	if (!rTotal || !rEvent || !rComplete)		return false;
 	// If there is data in at least one of the three data structures, return false
 	if (ll->pHead || bst->getCnt() || queue->pHead)	return false;
 
@@ -120,19 +123,18 @@ bool Manager::LOAD()
 		return false;
 	rTotal.close();
 
-
 	// remake EVENT_LIST
 	int temp_carnum = 0;
 	char temp_state;
 
 	// repeat until reach the end of file
-	while (!fEvent.eof())
+	while (!rEvent.eof())
 	{
 		// Dynamic memory allocation because it must contain multiple addresses
 		char *temp_name = new char[10];	
 
 		// read data from the file
-		fEvent >> temp_carnum >> temp_name >> temp_state;
+		rEvent >> temp_carnum >> temp_name >> temp_state;
 
 		/* If do not reach the end of the file but it is null character, 
 		   the data in the file does not exist. so error occurs*/
@@ -150,18 +152,18 @@ bool Manager::LOAD()
 	rEvent.close();
 
 	// remake COMPLETE_LIST
-	while (!fComplete.eof())
+	while (!rComplete.eof())
 	{
 		// Dynamic memory allocation because it must contain multiple addresses
 		char *temp_name = new char[10];
 
-		fComplete >> temp_carnum >> temp_name >> temp_state;
+		rComplete >> temp_carnum >> temp_name >> temp_state;
 
 		/* If do not reach the end of the file but it is null character,
 		the data in the file does not exist. so error occurs*/
 		if (temp_carnum == '\0')	return false;
 
-		// To filter out whitespace at the end line of "car.txt"
+		// To filter out whitespace at the end line of "complete_list_car.txt"
 		if (*temp_name == '\0')		break;
 		
 		// Create a node with the read information
@@ -169,13 +171,13 @@ bool Manager::LOAD()
 
 		queue->Push(NewNode);	// insert NewNode to Queue
 	}
-	fComplete.close();
+	rComplete.close();
 
 	return true;
 }
 
 // Function that creates LinkedList by reading data from "car.txt"
-bool Manager::ADD(char *par_txt)
+bool Manager::ADD(const char *par_txt)
 {
 	ifstream AddText(par_txt);
 
@@ -366,10 +368,24 @@ bool Manager::COMPLETE(int num)
    implemented up to now in a file */
 bool Manager::SAVE()
 {
-	//If there is no data in any of the three data structures, return false
-	if (!ll->Save(fTotal) || !bst->Save() || !queue->Save(fComplete))
-		return false;
+	// open the files as output stream
+	wTotal.open("total_list_car.txt");
+	wEvent.open("event_list_car.txt");
+	wComplete.open("complete_list_car.txt");
 
+	//If there is no data in any of the three data structures, return false
+	if (!ll->Save() || !bst->Save() || !queue->Save())
+	{
+		wTotal.close();
+		wEvent.close();
+		wComplete.close();
+		return false;
+	}
+
+	// close the files
+	wTotal.close();
+	wEvent.close();
+	wComplete.close();
 
 	return true;
 }
