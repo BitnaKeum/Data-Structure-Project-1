@@ -1,8 +1,8 @@
 #include "NumberBST.h"
 #include <queue>
 #include <stack>
-#include <string>
-
+#include <string.h>
+#include <fstream>
 using namespace std;
 
 NumberBST::NumberBST()//constructor
@@ -314,8 +314,10 @@ bool		NumberBST::Print(char * order)					// PRINT
 	return true;
 }
 
-bool		NumberBST::Save(ofstream& fname)								// SAVE
+bool		NumberBST::Save()										// SAVE
 {
+	ofstream wEvent("event_list_car.txt");
+
 	if (root == NULL)	return false;	// if NumberBST does not exist
 
 
@@ -333,7 +335,7 @@ bool		NumberBST::Save(ofstream& fname)								// SAVE
 
 		if (curNode->GetBST() != NULL)
 		{
-			curNode->GetBST()->Save(fname);	// save as iterative pre-order
+			curNode->GetBST()->Save(wEvent);	// save as iterative pre-order
 		}
 		if (curNode->GetRight())
 			S.push(curNode->GetRight());	// push the right element into stack
@@ -341,6 +343,7 @@ bool		NumberBST::Save(ofstream& fname)								// SAVE
 			S.push(curNode->GetLeft());		// push the left element into stack
 	}
 
+	wEvent.close();
 	return true;
 }
 
