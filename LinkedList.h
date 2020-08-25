@@ -15,7 +15,7 @@ public:
 	void Insert(CarNode * node);	//LOAD, ADD
 	CarNode * Search(int carNum);		//SEARCH
 	bool Print();	//PRINT
-	bool Save(ofstream& fname);	//SAVE
+	bool Save();	//SAVE
 	CarNode* Delete(int carNum);
 	void clear();
 };
