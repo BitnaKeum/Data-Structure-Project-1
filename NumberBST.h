@@ -1,7 +1,7 @@
 #pragma once
 #include "NumberNode.h"
 #include <iostream>
-
+using namespace std;
 
 class NumberBST
 {
@@ -19,7 +19,7 @@ public:
 	void		Delete(NumberNode* Root);				// COMPLETE
 	NumberNode *	Search(int num);				// ADD, COMPLETE, SEARCH
 	bool		Print(char * order);					// PRINT
-	bool		Save(ofstream& fname);								// SAVE
+	bool		Save();								// SAVE
 	void		Inorder(NumberNode *node);
 	void		Preorder(NumberNode *node);
 	void		Postorder(NumberNode *node);
