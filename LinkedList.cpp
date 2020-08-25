@@ -1,5 +1,6 @@
 #include "LinkedList.h"
-
+#include <fstream>
+using namespace std;
 
 LinkedList::LinkedList()//constructor
 {
@@ -57,7 +58,7 @@ CarNode* LinkedList::Delete(int carNum)
 	// pCur points the node that has carNum
 
 	if (pCur == NULL)	// If a node with carNum does not exist in L.L
-		return false;
+		return NULL;
 
 	// Create a pCopy node that copies the information of the pCur node before deletion
 	CarNode* pCopy = new CarNode(pCur->GetcarNum(), pCur->GetcarOwner(), pCur->Getstate());
@@ -123,20 +124,23 @@ bool LinkedList::Print()	//PRINT
 }
 
 // function to save data of all nodes in L.L
-bool LinkedList::Save(ofstream& fname)	//SAVE
+bool LinkedList::Save()	//SAVE
 {
 	if (pHead == NULL) return false;		// if there is no data in L.L, error occurs
+
+	ofstream wTotal("total_list_car.txt");	
 
 	pCur = pHead;
 	while (pCur != NULL) {
 		// output the information to output stream
-		fname << pCur->GetcarNum() << '\t'
+		wTotal << pCur->GetcarNum() << '\t'
 			<< pCur->GetcarOwner() << '\t'
 			<< pCur->Getstate() << '\n';
 
 		pCur = pCur->GetNext();	// pCur points the next node
 	}
 
+	wTotal.close();
 	return true;
 }
 
