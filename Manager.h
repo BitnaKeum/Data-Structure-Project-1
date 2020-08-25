@@ -28,7 +28,7 @@ public:
 
 	void run(const char * command);
 	bool LOAD();
-	bool ADD(char *par_txt);
+	bool ADD(const char *par_txt);
 	bool MOVE(int n);
 	bool SAVE();
 	bool SEARCH(int num);
