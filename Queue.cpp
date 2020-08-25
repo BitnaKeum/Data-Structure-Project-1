@@ -1,4 +1,5 @@
 #include "Queue.h"
+#include <fstream>
 
 using namespace std;
 
@@ -22,8 +23,8 @@ Queue::~Queue()//destructor
 
 void		Queue::Push(CarNode * node)			// LOAD
 {
-	// if there is node that has same number, return
-	if (Search(node->GetcarNum()) != NULL) return;
+	// if there is node that has same car number with 'node' in queue
+	if(Search(node->GetcarNum()) != NULL) return;
 
 	if (pHead == NULL)
 	{
@@ -100,18 +101,22 @@ bool		Queue::Print()						// PRINT
 }
 
 // function to save the data of all nodes 
-bool		Queue::Save(ofstream& fname)
+bool		Queue::Save()
 {
 	if (pHead == NULL)	return false;		// if there is no data in Queue, error occurs
+
+	ofstream wComplete("complete_list_car.txt");	
 
 	pCur = pHead;
 	while (pCur != NULL) {
 		// save data in output stream
-		fname << pCur->GetcarNum() << '\t' << pCur->GetcarOwner() << '\t'
+		wComplete << pCur->GetcarNum() << '\t' 
+			<< pCur->GetcarOwner() << '\t'
 			<< pCur->Getstate() << '\n';
 
 		pCur = pCur->GetNext();	// pCur points the next node
 	}
-
+	
+	wComplete.close();
 	return true;
 }
