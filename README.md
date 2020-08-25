@@ -11,6 +11,6 @@ COMPLETE_LIST => Queue
 
 
 ## 명령어 설명
-![image](https://user-images.githubusercontent.com/37769713/91179758-e7603380-e721-11ea-8a01-ff50bdfd4532.png)
+![image](https://user-images.githubusercontent.com/37769713/91183334-4f187d80-e726-11ea-95b3-5fe95ae6f767.png)
 <br><br>
 
