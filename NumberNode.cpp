@@ -62,3 +62,4 @@ void 			NumberNode::SetBST(CarBST * node)			// Set Car BST
 {
 	bst = node;
 }
+
