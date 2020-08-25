@@ -18,6 +18,6 @@ public:
 	void		Pop();							
 	CarNode *	Search(int num);				// SEARCH
 	bool		Print();						// PRINT
-	bool		Save(ofstream& fname);
+	bool		Save();
 };
 
